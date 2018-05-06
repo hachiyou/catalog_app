@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <header>
+		<h1>Catalog App</h1>
+		<a href="#">LOGIN</a>
+	</header>
+	<main>
+		<div class="category">
+			<h2>Categories</h2>
+			<ul>
+				{% for c in categories %}
+				<li><a href="#">{{c.name}}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="item">
+			<h2>Latest Items</h2>
+			<ul>
+				{% for i in items %}
+				<li><a href="#">{{i.name}} ({{i.category.name}})</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</main>
+</body>
+</html>

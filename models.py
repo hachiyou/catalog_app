@@ -50,7 +50,7 @@ class User(Base):
 
 class Category(Base):
     """Model of category."""
-    __tablename__ = 'user'
+    __tablename__ = 'category'
     id = Column(Integer, primary_key=True)
     name = Column(String(32), index=True)
 
