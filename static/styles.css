@@ -39,5 +39,9 @@ main {
 
 .category {
 	width:30%;
+	border-right: 2px solid #ccc;
 }
 
+div {
+	padding: 1em;
+}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <header>
+		<h1>Catalog App</h1>
+		<a href="#">LOGIN</a>
+	</header>
+	<main>
+		<div class="item_detail">
+			<h2>{{item.name}}</h2>
+			<p class='description'>Description: {{item.description}}</p>
+		</div>
+	</main>
+</body>
+</html>

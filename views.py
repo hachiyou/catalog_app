@@ -52,6 +52,24 @@ def showHomePage():
     return render_template('index.html', categories=categories, items=recent_items)
 
 
+@app.route('/catalog/<string:category_name>/item')
+def showItemList(category_name):
+    session = DBSession()
+    full_category = session.query(Category).all()
+    current_category = session.query(Category).filter_by(name=category_name).one()
+    itemList = session.query(Item).filter_by(category_id=current_category.id).all()
+    return render_template('item.html', items=itemList, i_length=len(itemList),
+                           cc=current_category, fc=full_category)
+
+
+@app.route('/catalog/<string:category_name>/<string:item_name>')
+def showItemDetail(category_name, item_name):
+    session = DBSession()
+    current_category = session.query(Category).filter_by(name=category_name).one()
+    item = session.query(Item).filter_by(category_id=current_category.id, name=item_name).one()
+    return render_template('item_details.html', item=item)
+
+
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
     app.debug = True
