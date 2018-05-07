@@ -1,0 +1,12 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+		<main>
+			<div id="result">{{email}} had successfully signed out.</div>
+			<script>
+				setTimeout(function() {
+					window.location.href = "/";
+				}, 5000);
+			</script>
+		</main>
+{% endblock %}
