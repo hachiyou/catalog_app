@@ -1,0 +1,19 @@
+<div class="category">
+	<h2>Categories</h2>
+	{% if session['email'] %}
+		<div class="AddNew link">
+			<a href="{{ url_for('newCategory') }}">Add New Category</a>
+		</div>
+	{% endif %}
+	<ul>
+		{% for c in fc %}
+		<li>
+			<a href="{{ url_for('showItemList', category_name=c.name) }}">{{c.name}}</a>
+			<div class="edit_links">
+				<a href="{{ url_for('editCategory', category_name=c.name) }}">Edit</a>
+				<a href="{{ url_for('deleteCategory', category_name=c.name) }}">Delete</a>
+			</div>
+		</li>
+		{% endfor %}
+	</ul>
+</div>

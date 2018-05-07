@@ -177,8 +177,78 @@ def showHomePage():
     recent_items = session.query(Item).order_by(
         desc(Item.id)).limit(10).all()
     
-    return render_template('index.html', categories=categories,
+    return render_template('index.html', fc=categories,
                            items=recent_items, session=login_session)
+
+
+@app.route('/catalog/new', methods=['GET', 'POST'])
+def newCategory():
+    if 'email' not in login_session:
+        return redirect('/login')
+
+    session = DBSession()
+
+    if request.method=="POST":
+        if session.query(Category).filter(
+            func.lower(Category.name)==func.lower(request.form['name'])
+            ).one() == None:
+            newCategory = Category(name=request.form['name'])
+            session.add(newCategory)
+            flash("New category %s created successfully." % newCategory.name)
+            session.commit()
+            return redirect(url_for('showHomePage'))
+        else:
+            return ('''<script>function myFunc(){
+alert("The category with the same name %s is already in the database.");
+window.location.href = "/";}
+</script><body onload='myFunc()''>''' % request.form['name'])
+    else:
+        return render_template('newCategory.html', session=login_session)
+
+
+@app.route('/catalog/<string:category_name>/edit', methods=['GET', 'POST'])
+def editCategory(category_name):
+    if 'email' not in login_session:
+        return redirect('/login')
+
+    session = DBSession()
+    sc = session.query(Category).filter(
+            func.lower(Category.name)==func.lower(category_name)).one()
+    
+    if request.method=="POST":
+        if session.query(Category).filter(
+            func.lower(Category.name)==func.lower(request.form['name'])
+            ).one() == None:
+            sc.name = request.form['name']
+            session.add(sc)
+            flash("Category successfully editted as %s." % sc.name)
+            session.commit()
+            return redirect(url_for('showHomePage'))
+        else:
+            return ('''<script>function myFunc(){
+alert("The category with the same name %s is already in the database.");
+window.location.href = "/";}
+</script><body onload='myFunc()''>''' % request.form['name'])
+    else:
+        return render_template('editCategory.html', category=sc, session=login_session)
+
+
+@app.route('/catalog/<string:category_name>/delete', methods=['GET', 'POST'])
+def deleteCategory(category_name):
+    if 'email' not in login_session:
+        return redirect('/login')
+
+    session = DBSession()
+    sc = session.query(Category).filter(
+            func.lower(Category.name)==func.lower(category_name)).one()
+    itemCtn = session.query(Item).filter_by(category_id=sc.id).count()
+    if request.method=="POST":
+        session.delete(sc)
+        flash("Category %s deleted successfully." % sc.name)
+        session.commit()
+        return redirect(url_for('showHomePage'))
+    else:
+        return render_template('deleteCategory.html', category=sc, ctnItems=itemCtn, session=login_session)
 
 
 @app.route('/catalog/<string:category_name>/item')

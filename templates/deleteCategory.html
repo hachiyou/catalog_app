@@ -1,0 +1,23 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+	<main>
+		<form action="{{ url_for('deleteCategory', category_name = category.name) }}" method = "POST">
+			<div class="item_detail">
+				<h2>Delete Category: {{category.name}}</h2>
+				{% if ctnItems > 0 %}
+					<p class='description'>There are still items in this category. Please remove them all before proceeding.</p>
+					<div class="btns">
+						<a href="{{ url_for('showHomePage') }}">Go Back</a>
+					</div>
+				{% else %}
+					<p class='description'>Are you sure you want to delete this category?</p>
+					<div class="btns">
+						<button type="submit" class="btn" id="submit" type="submit">Submit</button>
+						<a href="{{ url_for('showHomePage') }}">Cancel</a>
+					</div>
+				{% endif %}
+			</div>
+		</form>
+	</main>
+{% endblock %}

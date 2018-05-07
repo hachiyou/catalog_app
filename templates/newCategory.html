@@ -1,0 +1,17 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+	<main>
+		<form action="{{ url_for('newCategory') }}" method = "POST">
+			<div class="item_detail">
+				<h2>New Category: </h2>
+				<p class='description'>Title</p>
+				<input name="name" size='40'>
+			</div>
+			<div class="btns">
+				<button type="submit" class="btn" id="submit" type="submit">Save</button>
+				<a href="{{ url_for('showHomePage') }}">Cancel</a>
+			</div>
+		</form>
+	</main>
+{% endblock %}
