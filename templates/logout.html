@@ -2,7 +2,15 @@
 {% block content %}
 {% include "header.html" %}
 		<main>
-			<div id="result">{{email}} had successfully signed out.</div>
+			<div id="result">
+			{% if code=='200' %}
+				{{email}} had successfully signed out.
+			{% elif code=='401' %}
+				Current user not connected.
+			{% else %}
+				Failed to revoke token for {{email}}.
+			{% endif %}
+			</div>
 			<script>
 				setTimeout(function() {
 					window.location.href = "/";

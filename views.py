@@ -117,9 +117,7 @@ def gdisconnect():
     access_token = login_session.get('access_token')
     if access_token is None:
         #print ('Access Token is None')
-        response = make_response(json.dumps('Current user not connected.'), 401)
-        response.headers['Content-Type'] = 'application/json'
-        return response
+        return render_template('logout.html', code='401')
     #print ('In gdisconnect access token is %s', access_token)
     #print ('User name is: ')
     #print (login_session['username'])
@@ -128,6 +126,7 @@ def gdisconnect():
     result = h.request(url, 'GET')[0]
     #print ('result is ')
     #print (result)
+    email= login_session['email']
     if result['status'] == '200':
         email= login_session['email']
         del login_session['access_token']
@@ -135,13 +134,7 @@ def gdisconnect():
         del login_session['username']
         del login_session['email']
         del login_session['picture']
-        
-        return render_template('logout.html', email=email)
-    else:
-        response = make_response(json.dumps('Failed to revoke token for given user.', 400))
-        response.headers['Content-Type'] = 'application/json'
-        return response
-
+    return render_template('logout.html', email=email, code=result['status'])
 
 #JSON APIs to view Catalog Information
 @app.route('/catalog.json')
@@ -211,10 +204,103 @@ def showItemDetail(category_name, item_name):
     current_category = session.query(Category).filter(
         func.lower(Category.name)==func.lower(category_name)).one()
     
-    item = session.query(Item).filter_by(
-        category_id=current_category.id, name=item_name).one()
+    item = session.query(Item).filter(
+        Item.category_id==current_category.id, func.lower(Item.name)==func.lower(item_name)).one()
     
     return render_template('item_details.html', item=item, session=login_session)
+
+
+@app.route('/catalog/<string:category_name>/new', methods=['GET','POST'])
+def newItem(category_name):
+    if 'email' not in login_session:
+        return redirect('/login')
+
+    session = DBSession()
+    current_category = session.query(Category).filter(
+        func.lower(Category.name)==func.lower(category_name)).one()
+    if request.method == 'POST':
+        newItem = Item(name=request.form['name'],
+                       description=request.form['description'],
+                       category_id=current_category.id);
+        session.add(newItem)
+        flash("New item %s created successfully." % newItem.name)
+        session.commit()
+        return redirect(url_for('showItemList', category_name=category_name))
+    else:
+        return render_template('newItem.html', category=current_category)
+        
+
+@app.route('/catalog/<string:item_name>/edit', methods=['GET','POST'])
+def editItem(item_name):
+    if 'email' not in login_session:
+        return redirect('/login')
+
+    session = DBSession()
+    item = session.query(Item).filter(
+        func.lower(Item.name)==func.lower(item_name)).one()
+    
+    if request.method == 'POST':
+        if request.form['name']:
+            item.name = request.form['name']
+        if request.form['description']:
+            item.description = request.form['description']
+        if request.form['category']:
+            category = session.query(Category).filter(
+                func.lower(Category.name)==func.lower(request.form['category'])).one()
+            item.category_id = category.id
+        session.add(item)
+        session.commit()
+        flash("Item successfully edited as %s" % item.name)
+        return redirect(url_for('showHomePage'))
+    else:
+        categories = session.query(Category).all()
+        return render_template("editItem.html", categories=categories, item=item)
+
+
+@app.route('/catalog/<string:item_name>/delete', methods=['GET','POST'])
+def deleteItem(item_name):
+    if 'email' not in login_session:
+        return redirect('/login')
+
+    session = DBSession()
+    item = session.query(Item).filter(
+        func.lower(Item.name)==func.lower(item_name)).one()
+    
+    if request.method == 'POST':
+        flash("%s Item successfully deleted " % item.name)
+        session.delete(item)
+        session.commit()
+        return redirect(url_for('showHomePage'))
+    else:
+        return render_template("deleteItem.html", item=item)
+
+
+def createUser(login_session):
+    session=DBSession()
+    newUser = User(name=login_session['username'], email=login_session['email'],
+                   picture=login_session['picture'])
+    session.add(newUser)
+    session.commit()
+    user=session.query(User).filter_by(email=login_session['email']).all()
+    for u in user:
+        print (u.id)
+        print (u.email)
+    return user[0].id
+
+
+def getUserInfo(user_id):
+    session=DBSession()
+    user=session.query(User).filter_by(id=user_id).one()
+    return user
+
+
+def getUserID(email):
+    session=DBSession()
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user.id
+    except:
+        return None;
 
 
 if __name__ == '__main__':

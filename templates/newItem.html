@@ -1,0 +1,21 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+	<main>
+		<form action="{{ url_for('newItem', category_name=category.name) }}" method = "POST">
+			<div class="item_detail">
+				<h2>New Item: </h2>
+				<p class='description'>Title</p>
+				<input name="name" size='40'>
+				<p class='description'>Description</p>
+				<textarea name="description" rows="5" columns="40"></textarea>
+				<p class='description'>Category: {{category.name}}</p>
+			</div>
+			<div class="btns">
+				<button type="submit" class="btn" id="submit" type="submit">Save</button>
+				<a href="{{ url_for('showItemList', category_name = category.name) }}">Cancel</a>
+			</div>
+		</form>
+		
+	</main>
+{% endblock %}

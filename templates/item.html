@@ -12,6 +12,11 @@
 		</div>
 		<div class="item">
 			<h2>{{cc.name}} Items ({{i_length}} items)</h2>
+			{% if session['email'] %}
+				<div class="AddNew link">
+					<a href="{{ url_for('newItem', category_name=cc.name) }}">Add New Item</a>
+				</div>
+			{% endif %}
 			<ul>
 				{% for i in items %}
 				<li><a href="{{ url_for('showItemDetail', category_name = i.category.name, item_name = i.name) }}">{{i.name}} ({{i.category.name}})</a></li>
