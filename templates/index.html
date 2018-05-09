@@ -7,7 +7,7 @@
 			<h2>Latest Items</h2>
 			<ul>
 				{% for i in items %}
-				<li><a href="{{ url_for('showItemDetail', category_name = i.category.name, item_name = i.name) }}">{{i.name}} ({{i.category.name}})</a></li>
+				<li><a href="{{ url_for('showItemDetail', category_name = i.category.name, item_name = i.name) }}" class="descriptor">{{i.name}} ({{i.category.name}})</a></li>
 				{% endfor %}
 			</ul>
 		</div>

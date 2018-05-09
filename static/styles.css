@@ -4,34 +4,47 @@
 	box-sizing: border-box;
 	margin:0;
 	padding:0;
+	/*testing:*/
+	/*border: 0.2px dashed red;*/
 }
 
 h1 {
 	font-family: "Helvetica Neue Light", Roboto, Helvetica, Arial, sans-serif;
 	font-size: 50px;
-	color: #51453B;
+	color: #ccc;
 	line-height: 60px;
 	font-weight: 300;
 }
 
 h2 {
-	font-size: 24px;
+	font-size: 36px;
+	padding: 16px;
 	color: #42C3C9;
 	line-height: 29px;
 }
 
+h3 {
+	display: inline;
+	color: #056060;
+}
+p.descriptor {
+	display: inline;
+}
 a {
 	text-decoration: none;
 }
 
-header {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
+a:link, a:visited {
+	color: #236167;
+}
+
+.top_menu {
 	padding: 1em;
 	position: fix;
+	background-color: #596768;
 	top:0;
 	left:0;
+	
 }
 
 main {
@@ -40,10 +53,64 @@ main {
 }
 
 .category {
-	width:30%;
+	width:40%;
 	border-right: 2px solid #ccc;
 }
 
-div {
+.login .btn {
+	color: #ccc;
+	background-color: red;
+}
+
+li {
+	margin: 4px;
+	padding: 8px;
+	list-style-type: none;
+}
+.btn {
+	padding: 4px;
+	border: 2px outset #ccc;
+}
+
+.btn:hover {
+	border: 2px inset #ccc;
+}
+
+.flex_display {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.mini {
+	padding: 1px !important;
+}
+div.mini{
+	line-height: 30px;
+}
+.panel {
+	margin: 36px;
+	margin-top: 20px;
+	min-width: calc(100% - 96px);
+}
+
+.container div {
 	padding: 1em;
+}
+
+.descriptor {
+	font-size: 18px;
+	padding: 4px;
+}
+
+.inline {
+	display: inline;
+}
+
+p.inline.item_name {
+    font-size: 20px;
+}
+
+p.inline.cate_name {
+    color: #cce;
 }

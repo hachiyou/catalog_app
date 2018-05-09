@@ -1,12 +1,12 @@
-<div class='top-menu'>
-	<div>
+<div class='top_menu flex_display'>
+	<div class='logo'>
 		<a href="{{ url_for('showHomePage') }}"><h1>Catalog App</h1></a>
 	</div>
-	<div class="login_button">
+	<div class="login">
 		{% if not session['email'] %}
-			<a href="{{ url_for('showLogin') }}">LOGIN</a>
+			<a href="{{ url_for('showLogin') }}" class='login_btn btn'>LOGIN</a>
 		{% else %}
-			<a href="{{ url_for('gdisconnect') }}">LOGOUT</a>
+			<a href="{{ url_for('gdisconnect') }}" class='logout_btn btn'>LOGOUT</a>
 		{% endif %}
 	</div>
 </div>

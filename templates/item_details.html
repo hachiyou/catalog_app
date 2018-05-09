@@ -4,11 +4,20 @@
 	<main>
 		<div class="item_detail">
 			<h2>{{item.name}}</h2>
-			<p class='description'>Description: {{item.description}}</p>
+			<div class='description'>
+				<h3>Description:</h3>
+				<p class='descriptor'>
+				{% if item.description %}
+					{{item.description}}
+				{% else %}
+					None
+				{% endif %}
+				</p>
+			</div>
 			{% if session['email'] %}
-			<div class="link_container">
-				<a href="{{ url_for('editItem', item_name=item.name) }}">Edit</a>
-				<a href="{{ url_for('deleteItem', item_name=item.name) }}">Delete</a>
+			<div class="btn_container">
+				<a href="{{ url_for('editItem', item_name=item.name) }}" class='btn'>Edit</a>
+				<a href="{{ url_for('deleteItem', item_name=item.name) }}" class='btn'>Delete</a>
 			</div>
 			{% endif %}
 		</div>
