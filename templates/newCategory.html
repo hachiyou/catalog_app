@@ -5,12 +5,14 @@
 		<form action="{{ url_for('newCategory') }}" method = "POST">
 			<div class="item_detail">
 				<h2>New Category: </h2>
-				<p class='description'>Title</p>
-				<input name="name" size='40'>
+				<div class="input_field">
+					<h3>Title</h3>
+					<input name="name" size='40'>
+				</div>
 			</div>
-			<div class="btns">
+			<div class="btn_container">
 				<button type="submit" class="btn" id="submit" type="submit">Save</button>
-				<a href="{{ url_for('showHomePage') }}">Cancel</a>
+				<a href="{{ url_for('showHomePage') }}" class="btn">Cancel</a>
 			</div>
 		</form>
 	</main>

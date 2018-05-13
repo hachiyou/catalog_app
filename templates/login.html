@@ -9,8 +9,8 @@
 	</head>
 	<body>
 		<header>
-			<div class='top-menu'>
-				<div>
+			<div class='top_menu flex_display'>
+				<div class='logo'>
 					<a href="{{ url_for('showHomePage') }}"><h1>Catalog App</h1></a>
 				</div>
 			</div>
@@ -45,7 +45,7 @@
 							// Handle or verify the server response if necessary.
 								if (result) {
 									console.log(result);
-									$('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
+									$('#result').html('<p class="status">Login Successful!</p><br>'+ result + '<br><br><p class="status">Redirecting...</p>')
 									setTimeout(function() {
 										window.location.href = "/";
 									}, 4000);

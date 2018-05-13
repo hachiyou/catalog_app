@@ -27,6 +27,7 @@ h3 {
 	display: inline;
 	color: #056060;
 }
+
 p.descriptor {
 	display: inline;
 }
@@ -49,12 +50,16 @@ a:link, a:visited {
 
 main {
 	display: flex;
+	flex-wrap: wrap;
 	margin: 1em;
 }
 
 .category {
 	width:40%;
 	border-right: 2px solid #ccc;
+}
+.item {
+	width: 60%;
 }
 
 .login .btn {
@@ -113,4 +118,45 @@ p.inline.item_name {
 
 p.inline.cate_name {
     color: #cce;
+}
+
+#result, .item_detail, form{
+	margin: 0 auto;
+}
+.item_detail {
+	padding-left: 0 !important;
+}
+p.status{
+	font-size: 30px;
+	text-align: center;
+}
+
+.warning {
+	display:block !important;
+	padding: 16px;
+}
+
+input, select{
+	height:36px;
+	width: 100%;
+	font-size: 16px;
+}
+textarea {
+	font-size: 16px;
+}
+.input_field > h3{
+	display: block;
+	padding-bottom: 0.5em
+}
+
+.flash {
+	width:100%;
+	text-align:center;
+}
+
+.login{
+	text-align:right;
+}
+.current_email{
+	color: #ccc;
 }

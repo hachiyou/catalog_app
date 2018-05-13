@@ -6,15 +6,15 @@
 			<div class="item_detail">
 				<h2>Delete Category: {{category.name}}</h2>
 				{% if ctnItems > 0 %}
-					<p class='description'>There are still items in this category. Please remove them all before proceeding.</p>
-					<div class="btns">
-						<a href="{{ url_for('showHomePage') }}">Go Back</a>
+					<p class='descriptor warning'>There are still items in this category.<br> Please remove them all before proceeding.</p>
+					<div class="btn_container">
+						<a href="{{ url_for('showHomePage') }}" class='btn'>Go Back</a>
 					</div>
 				{% else %}
-					<p class='description'>Are you sure you want to delete this category?</p>
-					<div class="btns">
+					<p class='descriptor warning'>Are you sure you want to delete this category?</p>
+					<div class="btn_container">
 						<button type="submit" class="btn" id="submit" type="submit">Submit</button>
-						<a href="{{ url_for('showHomePage') }}">Cancel</a>
+						<a href="{{ url_for('showHomePage') }}" class='btn'>Cancel</a>
 					</div>
 				{% endif %}
 			</div>

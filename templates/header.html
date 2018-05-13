@@ -2,11 +2,18 @@
 	<div class='logo'>
 		<a href="{{ url_for('showHomePage') }}"><h1>Catalog App</h1></a>
 	</div>
-	<div class="login">
-		{% if not session['email'] %}
-			<a href="{{ url_for('showLogin') }}" class='login_btn btn'>LOGIN</a>
-		{% else %}
-			<a href="{{ url_for('gdisconnect') }}" class='logout_btn btn'>LOGOUT</a>
+	<div class="side">
+		<div class="login">
+			{% if not session['email'] %}
+				<a href="{{ url_for('showLogin') }}" class='login_btn btn'>LOGIN</a>
+			{% else %}
+				<a href="{{ url_for('gdisconnect') }}" class='logout_btn btn'>LOGOUT</a>
+			{% endif %}
+		</div>
+		{% if session['email'] %}
+			<div class="current_email">
+			<p>{{session['email']}}</p>
+			</div>
 		{% endif %}
 	</div>
 </div>

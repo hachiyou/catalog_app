@@ -4,25 +4,31 @@
 	<main>
 		<form action="{{ url_for('editItem', item_name=item.name) }}" method = "POST">
 			<div class="item_detail">
-				<h2>Edit Item: {{item.name}}</h2>
-				<p class='description'>Title</p>
-				<input name="name" placeholder="{{item.name}}" size='40'>
-				<p class='description'>Description</p>
-				<textarea name="description" rows="5" columns="40">{{item.description}}</textarea>
-				<p class='description'>Category</p>
-				<select name="category">
-					{% for c in categories: %}
-						{% if item.category_id == c.id %}
-							<option selected="selected" value="{{c.name}}">{{c.name}}</option>
-						{% else %}
-							<option value="{{c.name}}">{{c.name}}</option>
-						{% endif %}
-					{% endfor %}
-				</select>
+				<h2>Edit Item:<br><br> {{item.name}} from {{item.category.name}}</h2>
+				<div class="input_field">
+					<h3>Title</h3>
+					<input name="name" placeholder="{{item.name}}" size='40'>
+				</div>
+				<div class="input_field">
+					<h3>Description</h3>
+					<textarea name="description" rows="5" cols="60">{{item.description}}</textarea>
+				</div>
+				<div class="input_field">
+					<h3>Category</h3>
+					<select name="category">
+						{% for c in categories: %}
+							{% if item.category_id == c.id %}
+								<option selected="selected" value="{{c.name}}">{{c.name}}</option>
+							{% else %}
+								<option value="{{c.name}}">{{c.name}}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
+				</div>
 			</div>
-			<div class="btns">
+			<div class="btn_container">
 				<button type="submit" class="btn" id="submit" type="submit">Save</button>
-				<a href="{{ url_for('showItemDetail', category_name=item.category.name, item_name = item.name) }}">Cancel</a>
+				<a href="{{ url_for('showItemDetail', category_name=item.category.name, item_name = item.name) }}" class="btn">Cancel</a>
 			</div>
 		</form>
 		
