@@ -1,5 +1,11 @@
 #!/usr/bin/python3
-from flask import Flask, render_template, request, redirect, jsonify, url_for, flash  # noqa
+from flask import (Flask,
+                   render_template,
+                   request,
+                   redirect,
+                   jsonify,
+                   url_for,
+                   flash)
 from sqlalchemy import create_engine, desc, func
 from sqlalchemy.orm import sessionmaker
 from models import Base, Category, Item, User
@@ -44,7 +50,7 @@ def gconnect():
     # Compare the state token
     if request.args.get('state') != login_session['state']:
         response = make_response(json.dumps('Invalid state parameter'), 401)
-        reponse.headers['Content-Type'] = 'application/json'
+        response.headers['Content-Type'] = 'application/json'
         return response
 
     code = request.data
@@ -56,7 +62,7 @@ def gconnect():
     except FlowExchangeError:
         response = make_response(
             json.dumps('Failed to upgrade the authorization code.'), 401)
-        reponse.headers['Content-Type'] = 'application/json'
+        response.headers['Content-Type'] = 'application/json'
         return response
 
     # obtain the access token
@@ -68,7 +74,7 @@ def gconnect():
 
     if result.get('error') is not None:
         response = make_response(json.dumps(result.get('error')), 500)
-        reponse.headers['Content-Type'] = 'application/json'
+        response.headers['Content-Type'] = 'application/json'
         return response
 
     gplus_id = credentials.id_token['sub']
@@ -78,7 +84,7 @@ def gconnect():
         response = make_response(
             json.dump("Toeken's user ID does not match given user ID."),
             401)
-        reponse.headers['Content-Type'] = 'application/json'
+        response.headers['Content-Type'] = 'application/json'
         return response
 
     # compare the result with the stored client id
@@ -87,7 +93,7 @@ def gconnect():
             json.dump("Toeken's client ID does not match app's."),
             401)
         print("Token's client ID does not match app's.")
-        reponse.headers['Content-Type'] = 'application/json'
+        response.headers['Content-Type'] = 'application/json'
         return response
 
     # compare the credentials
@@ -223,9 +229,12 @@ def newCategory():
                 ).all()
         if len(result) > 0:
             return ('''<script>function myFunc(){
-alert("The category with the same name %s is already in the database.");
-window.location.href = "/";}
-</script><body onload='myFunc()''>''' % request.form['name'])
+                    alert(
+                    "The category with the same name %s
+                    is already in the database.");
+                    window.location.href = "/";
+                    }</script><body onload='myFunc()''>'''
+                    % request.form['name'])
         else:
             # if not, add it to the database.
             newCategory = Category(name=request.form['name'])
@@ -262,9 +271,12 @@ def editCategory(category_name):
                 ).all()
         if len(result) > 0:
             return ('''<script>function myFunc(){
-alert("The category with the same name %s is already in the database.");
-window.location.href = "/";}
-</script><body onload='myFunc()''>''' % request.form['name'])
+                    alert(
+                    "The category with the same name %s
+                    is already in the database.");
+                    window.location.href = "/";
+                    }</script><body onload='myFunc()''>'''
+                    % request.form['name'])
         else:
             # if not, change the name of the category to new name.
             sc.name = request.form['name']
@@ -349,9 +361,12 @@ def showItemDetail(category_name, item_name):
 
     session = DBSession()
 
+    sc = session.query(Category).filter(
+        func.lower(Category.name) == func.lower(category_name)
+        ).one()
     # Obtain the select item.
     item = session.query(Item).filter(
-        Item.category.name == category_name,
+        Item.category_id == sc.id,
         func.lower(Item.name) == func.lower(item_name)
         ).one()
 
@@ -385,9 +400,12 @@ def newItem(category_name):
             ).all()
         if len(itemToCheck) > 0:
             return ('''<script>function myFunc(){
-alert("The item with the same name %s is already in the database.");
-window.location.href = "/catalog/%s/item";}
-</script><body onload='myFunc()''>''' % (request.form['name'], current_category.name))  # noqa
+                    alert(
+                    "The item with the same name %s
+                    is already in the database.");
+                    window.location.href = "/catalog/%s/item";
+                    }</script><body onload='myFunc()''>'''
+                    % (request.form['name'], current_category.name))  # noqa
         else:
             # if not, add it to db.
             newItem = Item(name=request.form['name'],
@@ -428,9 +446,12 @@ def editItem(item_name):
                 ).all()
             if len(itemToCheck) > 0:
                 return ('''<script>function myFunc(){
-alert("The item with the same name %s is already in the database.");
-window.location.href = "/catalog/%s/item";}
-</script><body onload='myFunc()''>''' % (request.form['name'], item.category.name))  # noqa
+                        alert(
+                        "The item with the same name %s
+                        is already in the database.");
+                        window.location.href = "/catalog/%s/item";
+                        }</script><body onload='myFunc()''>'''
+                        % (request.form['name'], item.category.name))  # noqa
             else:
                 # if not, change the name.
                 item.name = request.form['name']
