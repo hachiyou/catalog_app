@@ -46,6 +46,9 @@ The required softwares are:
 	* Add item: <http://localhost:8000/catalog/(category_name)/new>
 	* Edit Item: <http://localhost:8000/item/(item_name)/edit>
 	* Delete Item: <http://localhost:8000/item/(item_name)/delete>
+	* JSON Endpoints:
+		* Overall: <http://localhost:8000/catalog.json>
+		* Individual Category: <http://localhost:8000/catalog/(category_name).json>
 ## Built With
 
 * Python 3.6.5
